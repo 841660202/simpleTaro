@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux';
 import {AtAvatar, AtList, AtListItem, AtButton} from 'taro-ui'
 import './index.scss'
@@ -30,6 +30,12 @@ export default class Index extends Component {
   componentDidShow () { }
 
   componentDidHide () { }
+  handleLogOut =()=>{
+    console.log('back')
+    Taro.redirectTo({
+      url: '/pages/login/index'
+    })
+  }
   render () {
     return (
       <View className='account-container'>
@@ -74,7 +80,7 @@ export default class Index extends Component {
         </AtList>
 
        <View className='logout-btn'>
-         <AtButton className='logout'>退出登陆</AtButton>
+         <Button className='logout' onClick={this.handleLogOut}>退出登陆</Button>
        </View>
       </View>
     )

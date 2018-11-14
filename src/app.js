@@ -1,3 +1,4 @@
+import '@tarojs/async-await' // 少引入这个，总是包运行时错误
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
 import Index from './pages/index'
@@ -17,6 +18,7 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/login/index',
       'pages/home/index',
       'pages/msg/index',
       'pages/account/index',

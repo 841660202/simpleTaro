@@ -1,20 +1,25 @@
 import Taro from '@tarojs/taro';
 import { baseUrl, noConsole } from '../config';
+import {SERVER_URL, VERSION} from "../config/config.server";
 
 const request_data = {
   platform: 'wap',
   rent_mode: 2,
 };
 
-export default (options = { method: 'GET', data: {} }) => {
+export default (api, options = { method: 'GET', params: {} }) => {
   if (!noConsole) {
-    console.log(`${new Date().toLocaleString()}【 M=${options.url} 】P=${JSON.stringify(options.data)}`);
+    console.log(`${new Date().toLocaleString()}【 M=${api} 】P=${JSON.stringify(options.params)}`);
   }
+  let requestApi =
+    api.indexOf('logistics') < 0
+      ? `${SERVER_URL}/logistics/web/${VERSION}${api}`
+      : `${SERVER_URL}${api}`
   return Taro.request({
-    url: baseUrl + options.url,
+    url: requestApi,
     data: {
       ...request_data,
-      ...options.data
+      ...options.params
     },
     header: {
       'Content-Type': 'application/json',
@@ -24,14 +29,19 @@ export default (options = { method: 'GET', data: {} }) => {
     const { statusCode, data } = res;
     if (statusCode >= 200 && statusCode < 300) {
       if (!noConsole) {
-        console.log(`${new Date().toLocaleString()}【 M=${options.url} 】【接口响应：】`,res.data);
+        console.log(`${new Date().toLocaleString()}【 M=${api} 】【接口响应：】`,res.data);
       }
-      if (data.status !== 'ok') {
-        Taro.showToast({
-          title: `${res.data.error.message}~` || res.data.error.code,
-          icon: 'none',
-          mask: true,
-        });
+      console.log('data',data)
+      if (data.returnCode !== '000000') {
+       try {
+         Taro.showToast({
+           title: data && (data.returnMeaage || data.returnMessage),
+           icon: 'none',
+           mask: true,
+         });
+       } catch(error) {
+
+       }
       }
       return data;
     } else {
@@ -39,3 +49,4 @@ export default (options = { method: 'GET', data: {} }) => {
     }
   })
 }
+
