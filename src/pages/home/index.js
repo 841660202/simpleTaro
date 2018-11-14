@@ -1,7 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux';
+import { AtGrid, AtNoticebar } from "taro-ui"
 import './index.scss'
+import {GRID_NAV} from "./const";
 // import withShare from "../../decorator/withShare";
 
 
@@ -16,7 +18,8 @@ import './index.scss'
 export default class Index extends Component {
 
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '首页',
+    navigationBarTextStyle: '#fff',
   }
 
   componentWillMount () { }
@@ -28,21 +31,25 @@ export default class Index extends Component {
   componentDidShow () { }
 
   componentDidHide () { }
-  test = () => {
-    this.props.dispatch({
-      type:'global/updateState',
-      payload: {
-        test:'Hello world!'
-      }
-    })
-    console.log('......')
-  }
   render () {
     return (
       <View className='index'>
-        <Text>{this.props.test}</Text>
-        <View className='see-des' onClick={this.test}>
-          <Text>click</Text>
+        <View className='see-des'>
+          <AtGrid
+            className='bg-p f-c-w '
+            hasBorder={false}
+            columnNum={3}
+            data={GRID_NAV.slice(0,3)}
+          />
+          <AtNoticebar marquee icon='volume-plus'>
+            全场1折起，错过再等一年
+          </AtNoticebar>
+          <View className='left-bar'><Text>菜单</Text></View>
+          <AtGrid
+            hasBorder={false}
+            columnNum={4}
+            data={GRID_NAV}
+          />
         </View>
       </View>
     )

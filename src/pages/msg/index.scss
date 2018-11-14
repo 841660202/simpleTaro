@@ -1,0 +1,14 @@
+.msg-container {
+  .top-bar {
+    display: flex;
+    justify-content: center;
+    margin: 6px 8px 20px;
+    .read-all {
+      position: absolute;
+      right: 8px;
+    }
+  }
+  .segment-bar {
+    width: 300px;
+  }
+}
